@@ -2,6 +2,8 @@ import { ArrowRight, Zap } from 'lucide-react'
 import { Button } from '../ui/Button'
 import { useScrollReveal } from '../../hooks/useScrollReveal'
 
+const ENROLL_URL = 'https://smore.im/form/5KNKdzbvFG'
+
 export function FinalCTA() {
   const sectionRef = useScrollReveal() as React.RefObject<HTMLElement>
 
@@ -60,7 +62,7 @@ export function FinalCTA() {
         </h2>
 
         <p
-          className="reveal text-[#64748b] text-base leading-relaxed mb-10 max-w-xl mx-auto"
+          className="reveal text-[#94a3b8] text-base leading-relaxed mb-10 max-w-xl mx-auto"
           data-delay="200"
         >
           K대 전전 출신 멘토가 트렌디하고 재밌게 알려드려요. 왕초보도 OK, 지금 내 클래스를 골라보세요.
@@ -70,11 +72,11 @@ export function FinalCTA() {
           className="reveal flex flex-col sm:flex-row items-center justify-center gap-3"
           data-delay="300"
         >
-          <Button href="#courses" size="lg">
-            클래스 선택하기 <ArrowRight size={18} />
+          <Button href={ENROLL_URL} target="_blank" size="lg">
+            지금 수강 신청하기 <ArrowRight size={18} />
           </Button>
-          <Button href="#curriculum" variant="ghost" size="lg">
-            커리큘럼 보기
+          <Button href="#courses" variant="ghost" size="lg">
+            클래스 둘러보기
           </Button>
         </div>
       </div>

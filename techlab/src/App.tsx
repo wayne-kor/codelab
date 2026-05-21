@@ -1,5 +1,6 @@
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
+import { StickyMobileCTA } from './components/ui/StickyMobileCTA'
 import { Hero } from './components/sections/Hero'
 import { ProblemStatement } from './components/sections/ProblemStatement'
 import { Courses } from './components/sections/Courses'
@@ -26,6 +27,7 @@ export default function App() {
         <FinalCTA />
       </main>
       <Footer />
+      <StickyMobileCTA />
     </>
   )
 }

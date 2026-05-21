@@ -113,13 +113,13 @@ export function Hero() {
         </p>
 
         <div
-          className="animate-fade-up flex flex-col sm:flex-row items-center gap-3 mt-2"
+          className="animate-fade-up flex flex-col sm:flex-row items-center gap-3 mt-2 w-full sm:w-auto"
           style={{ animationDelay: '300ms' }}
         >
-          <Button href="#courses" size="lg">
+          <Button href="#courses" size="lg" className="w-full sm:w-auto">
             클래스 선택하기 <ArrowRight size={18} />
           </Button>
-          <Button href="#curriculum" variant="ghost" size="lg">
+          <Button href="#curriculum" variant="ghost" size="md" className="opacity-60 sm:opacity-100">
             커리큘럼 보기
           </Button>
         </div>

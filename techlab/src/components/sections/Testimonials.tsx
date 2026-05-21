@@ -51,13 +51,59 @@ function Stars({ count }: { count: number }) {
   )
 }
 
+function ReviewCard({
+  initial,
+  name,
+  role,
+  quote,
+  stars,
+  course,
+  className = '',
+  delay = 0,
+}: (typeof reviews)[number] & { className?: string; delay?: number }) {
+  return (
+    <div
+      className={`reveal glass rounded-3xl p-6 flex flex-col gap-4 hover:-translate-y-1 transition-all duration-300 ${className}`}
+      data-delay={delay}
+    >
+      <Stars count={stars} />
+      <blockquote className="text-sm text-[#94a3b8] leading-relaxed flex-1 break-words whitespace-normal">
+        <span className="text-3xl text-[#d9f99d] font-serif leading-none">"</span>
+        <span className="relative -top-1">{quote.replace(/"/g, '').trim()}</span>
+      </blockquote>
+      <span
+        className="text-xs px-2.5 py-1 rounded-lg w-fit"
+        style={{
+          background: 'rgba(217,249,157,0.06)',
+          border: '1px solid rgba(217,249,157,0.15)',
+          color: '#a3e635',
+        }}
+      >
+        {course}
+      </span>
+      <div className="flex items-center gap-3 border-t border-[#1e2d45] pt-4">
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+          style={{ background: 'rgba(217,249,157,0.15)', color: '#d9f99d' }}
+        >
+          {initial}
+        </div>
+        <div>
+          <p className="text-sm font-semibold text-[#f1f5f9]">{name}</p>
+          <p className="text-xs text-[#64748b]">{role}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function Testimonials() {
   const sectionRef = useScrollReveal() as React.RefObject<HTMLElement>
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-32 px-6">
+    <section id="testimonials" ref={sectionRef} className="py-32 overflow-x-hidden">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-16 reveal" data-delay="0">
+        <div className="text-center mb-16 px-6 reveal" data-delay="0">
           <SectionLabel>수강생 후기</SectionLabel>
           <h2
             className="font-extrabold tracking-tight text-[#f1f5f9]"
@@ -68,54 +114,54 @@ export function Testimonials() {
           </h2>
         </div>
 
-        {/* Snap scroll on mobile */}
-        <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible scrollbar-none">
-          {reviews.map(({ initial, name, role, quote, stars, course }, i) => (
-            <div
-              key={name}
-              className="reveal glass rounded-3xl p-7 flex flex-col gap-5 min-w-[280px] snap-center flex-shrink-0 md:min-w-0 md:flex-shrink hover:-translate-y-1 transition-all duration-300"
-              data-delay={i * 120 + 100}
-            >
-              {/* Stars */}
-              <Stars count={stars} />
-
-              {/* Quote */}
-              <blockquote className="text-sm text-[#94a3b8] leading-relaxed flex-1">
-                <span className="text-3xl text-[#d9f99d] font-serif leading-none">"</span>
-                <span className="relative -top-1">{quote.replace(/"/g, '').trim()}</span>
-              </blockquote>
-
-              {/* Course badge */}
+        {/* Mobile: swipe carousel */}
+        <div className="md:hidden">
+          <div
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory pl-6 pr-6 pb-2"
+            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+          >
+            {reviews.map(({ initial, name, role, quote, stars, course }, i) => (
+              <ReviewCard
+                key={name}
+                initial={initial}
+                name={name}
+                role={role}
+                quote={quote}
+                stars={stars}
+                course={course}
+                className="flex-shrink-0 snap-center w-[82vw]"
+                delay={i * 120 + 100}
+              />
+            ))}
+            <div className="flex-shrink-0 w-2" aria-hidden />
+          </div>
+          {/* Swipe hint dots */}
+          <div className="flex justify-center gap-1.5 mt-5">
+            {reviews.map((r) => (
               <span
-                className="text-xs px-2.5 py-1 rounded-lg w-fit"
-                style={{
-                  background: 'rgba(217,249,157,0.06)',
-                  border: '1px solid rgba(217,249,157,0.15)',
-                  color: '#a3e635',
-                }}
-              >
-                {course}
-              </span>
+                key={r.name}
+                className="w-1.5 h-1.5 rounded-full bg-[#1e2d45]"
+              />
+            ))}
+          </div>
+        </div>
 
-              {/* Author */}
-              <div className="flex items-center gap-3 border-t border-[#1e2d45] pt-4">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                  style={{ background: 'rgba(217,249,157,0.15)', color: '#d9f99d' }}
-                >
-                  {initial}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#f1f5f9]">{name}</p>
-                  <p className="text-xs text-[#64748b]">{role}</p>
-                </div>
-              </div>
-            </div>
+        {/* Desktop: grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-5 px-6">
+          {reviews.map(({ initial, name, role, quote, stars, course }, i) => (
+            <ReviewCard
+              key={name}
+              initial={initial}
+              name={name}
+              role={role}
+              quote={quote}
+              stars={stars}
+              course={course}
+              delay={i * 120 + 100}
+            />
           ))}
         </div>
       </div>
-
-      <style>{`.scrollbar-none::-webkit-scrollbar { display: none; }`}</style>
     </section>
   )
 }
